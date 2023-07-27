@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,9 +30,11 @@ public class CustomerController {
 	private final CustomerModelAssembler assembler;
 
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public EntityModel<Customer> create(@RequestBody Customer customer) {
-		  return assembler.toModel(service.create(customer));
+	public ResponseEntity<?> create(@RequestBody Customer customer) {
+		var customerModel = assembler.toModel(service.create(customer));
+		  return ResponseEntity
+				  .created(customerModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				  .body(customerModel);
 	}
 
 	@GetMapping("/{customerId}")
