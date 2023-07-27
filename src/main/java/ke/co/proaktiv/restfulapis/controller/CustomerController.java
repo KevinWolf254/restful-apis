@@ -17,6 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import ke.co.proaktiv.restfulapis.domain.Customer;
 import ke.co.proaktiv.restfulapis.service.CustomerService;
+import ke.co.proaktiv.restfulapis.util.CustomerModelAssembler;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,32 +25,25 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/customers")
 public class CustomerController {
 	private final CustomerService service;
+	private final CustomerModelAssembler assembler;
 
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public EntityModel<Customer> create(@RequestBody Customer customer) {
-		 var savedCustomer = service.create(customer);
-		  return EntityModel.of(savedCustomer,
-		      linkTo(methodOn(CustomerController.class).findById(savedCustomer.getId())).withSelfRel(),
-		      linkTo(methodOn(CustomerController.class).findAll()).withRel("customers"));
+		  return assembler.toModel(service.create(customer));
 	}
 
 	@GetMapping("/{customerId}")
 	@ResponseStatus(value = HttpStatus.OK)	
 	public EntityModel<Customer> findById(@PathVariable String customerId) {
-		Customer customer = service.findById(customerId);
-		  return EntityModel.of(customer,
-		      linkTo(methodOn(CustomerController.class).findById(customer.getId())).withSelfRel(),
-		      linkTo(methodOn(CustomerController.class).findAll()).withRel("customers"));
+		  return assembler.toModel(service.findById(customerId));
 	}
 	
 	@GetMapping
 	@ResponseStatus(value = HttpStatus.OK)	
 	public CollectionModel<EntityModel<Customer>> findAll() {
 		  List<EntityModel<Customer>> customers = service.findAll().stream()
-		      .map(customer -> EntityModel.of(customer,
-		          linkTo(methodOn(CustomerController.class).findById(customer.getId())).withSelfRel(),
-		          linkTo(methodOn(CustomerController.class).findAll()).withRel("customers")))
+		      .map(assembler::toModel)
 		      .collect(Collectors.toList());
 
 		  return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class).findAll()).withSelfRel());
