@@ -31,4 +31,23 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return repository.get(customerId);
 	}
+	
+	@Override
+	public Customer update(String customerId, Customer customer) {
+		if(!repository.containsKey(customerId)) {
+			throw new NotFoundException("Customer with id " + customerId + " was not found!");
+		}
+		customer.setId(customerId);
+		
+		repository.put(customerId, customer);
+		return repository.get(customerId);
+	}
+
+	@Override
+	public void delete(String customerId) {
+		if(!repository.containsKey(customerId)) {
+			throw new NotFoundException("Customer with id " + customerId + " was not found!");
+		}
+		repository.remove(customerId);		
+	}
 }

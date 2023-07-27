@@ -8,4 +8,6 @@ public interface CustomerService {
 	Customer create(Customer customer);
 	List<Customer> findAll();
 	Customer findById(String customerId);
+	Customer update(String customerId, Customer customer);
+	void delete(String customerId);
 }
