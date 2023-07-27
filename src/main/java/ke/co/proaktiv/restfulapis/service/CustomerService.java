@@ -10,4 +10,7 @@ public interface CustomerService {
 	Customer findById(String customerId);
 	Customer update(String customerId, Customer customer);
 	void delete(String customerId);
+	Customer kyc(String customerId);
+	Customer complete(String customerId);
+	Customer cancel(String customerId);
 }

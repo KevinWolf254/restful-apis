@@ -65,4 +65,19 @@ public class CustomerController {
 		service.delete(customerId);
 	  return ResponseEntity.noContent().build();
 	}
+
+	@PutMapping("/{customerId}/kyc")
+	public EntityModel<Customer> kyc(@PathVariable String customerId) {
+		return assembler.toModel(service.kyc(customerId));
+	}
+
+	@PutMapping("/{customerId}/complete")
+	public EntityModel<Customer> complete(@PathVariable String customerId) {
+		return assembler.toModel(service.complete(customerId));
+	}
+
+	@PutMapping("/{customerId}/cancel")
+	public EntityModel<Customer> cancel(@PathVariable String customerId) {
+		return assembler.toModel(service.cancel(customerId));
+	}
 }

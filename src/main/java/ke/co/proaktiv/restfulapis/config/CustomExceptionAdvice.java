@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import ke.co.proaktiv.restfulapis.model.BadRequestException;
 import ke.co.proaktiv.restfulapis.model.NotFoundException;
 
 @ControllerAdvice
@@ -15,6 +16,13 @@ public class CustomExceptionAdvice {
 	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	String notFoundHandler(NotFoundException ex) {
+		return ex.getMessage();
+	}
+
+	@ResponseBody
+	@ExceptionHandler(BadRequestException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String badRequestHandler(BadRequestException ex) {
 		return ex.getMessage();
 	}
 }
