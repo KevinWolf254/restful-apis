@@ -4,6 +4,8 @@ This project is a showcase of how to develop RESTful APIs using Spring Boot 3, J
 ## Introduction
 RESTful APIs have become the standard for building web applications due to their simplicity and scalability. Spring Boot, a popular Java framework, provides an excellent platform for building robust and efficient RESTful APIs. In this project, we leverage the power of Java 17, Spring Boot 3, and Spring HATEOAS to create a RESTful API that follows the principles of HATEOAS.
 
+[Check Github Project](https://github.com/KevinWolf254/restful-apis)
+
 ## Features
 - Demonstrates a basic RESTful API setup with Spring Boot 3.
 - Utilizes Java 17 features for enhanced performance and maintainability.
